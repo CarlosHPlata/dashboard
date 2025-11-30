@@ -1,0 +1,26 @@
+---
+import '../styles/global.css'
+import HomeSection from '../components/HomeSection/HomeSection.astro'
+import CalendarSection from '../components/CalendarSection/CalendarSection.astro'
+import TodoSection from '../components/TodoSection/TodoSection.astro'
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Home Dashboard</title>
+	</head>
+	<body class="bg-base-300 h-screen w-screen overflow-hidden">
+		<main class="flex flex-row h-full w-full">
+			<HomeSection />
+			<CalendarSection />
+			<TodoSection />
+		</main>
+		<script src="../scripts/clock.ts"></script>
+		<script src="../scripts/wallpaper.ts"></script>
+		<script src="../scripts/weather.ts"></script>
+	</body>
+</html>

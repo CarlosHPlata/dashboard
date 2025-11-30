@@ -1,0 +1,72 @@
+---
+import Weather from './parts/Weather.astro'
+---
+
+<!-- Section 1: Time, Image, Weather (45%) -->
+<section class="w-[45%] h-full p-1 relative" id="home">
+  <!-- Wallpaper Background (fills entire section) -->
+  <div
+    class="absolute inset-1 overflow-hidden rounded-2xl shadow-xl"
+    id="wallpaper"
+  >
+    <div
+      class="absolute inset-0 bg-neutral-focus flex items-center justify-center text-neutral-content"
+    >
+      <span class="text-lg">Image Background</span>
+    </div>
+  </div>
+
+  <!-- Time Widget (positioned at top) -->
+  <div class="card bg-base-100/10 h-1/4 relative z-10 mt-2 m-6" id="current">
+    <div class="card-body flex flex-row items-center justify-between">
+      <!-- Time Widget (positioned at top) -->
+      <div class="flex items-center justify-center relative" id="time-content">
+        <span
+          class="loading loading-spinner loading-lg text-primary"
+          id="clock-loader"></span>
+        <div id="clock-content" class="flex flex-col items-end hidden">
+          <h2 class="text-8xl font-bold font-mono text-white" id="clock-time">
+          </h2>
+          <p class="text-xs text-white" id="clock-date"></p>
+        </div>
+      </div>
+      <!-- Weather Widget (positioned at top) -->
+      <div
+        class="flex flex-col items-center justify-center -mt-3"
+        id="weather-container"
+      >
+        <div class="flex flex-col items-center">
+          <img
+            src="/assets/animated/clear.svg"
+            alt="Weather"
+            class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32"
+            id="current-weather-icon"
+          />
+          <div class="flex flex-col items-center gap-2">
+            <span
+              class="flex items-center text-2xl leading-none -mt-2"
+              id="current-weather-label"
+            >
+              <span class="font-bold leading-none" id="current-weather-temp"
+              ></span>
+            </span>
+            <span
+              class="text-sm leading-none text-shade-200 -mt-2"
+              id="current-weather-apparent-label"
+            >
+              Apparent:
+              <span
+                class="font-bold leading-none -mt-2"
+                id="current-weather-apparent"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather Widget (positioned at bottom) -->
+  <div class="h-1/4 absolute bottom-6 left-6 right-6 z-10 m-6">
+    <Weather />
+  </div>
+</section>

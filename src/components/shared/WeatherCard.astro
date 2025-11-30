@@ -1,0 +1,32 @@
+---
+interface Props {
+  dayString: string
+  dateString: string
+  weathercode: string
+  maxTemperature: number
+  minTemperature: number
+}
+
+const { dayString, dateString, weathercode, maxTemperature, minTemperature } =
+  Astro.props
+---
+
+<div class="card bg-base-100/5 backdrop-blur-sm rounded-xl">
+  <div class="card-body p-4 flex flex-col items-center">
+    <div class="flex flex-col items-center">
+      <span class="text-sm font-bold" aria-label="dayString">{dayString}</span>
+      <span class="text-sm" aria-label="dateString">{dateString}</span>
+    </div>
+    <img
+      src={`/assets/static/${weathercode}.svg`}
+      alt="Weather"
+      class="w-16 h-16 -mt-4"
+    />
+    <div class="flex flex-row items-center gap-2 -mt-4">
+      <span class="text-sm font-bold leading-none" aria-label="maxTemperature"
+        >{maxTemperature}°</span
+      >
+      <span class="text-sm" aria-label="minTemperature">{minTemperature}°</span>
+    </div>
+  </div>
+</div>

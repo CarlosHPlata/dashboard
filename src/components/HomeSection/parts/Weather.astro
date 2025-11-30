@@ -1,0 +1,74 @@
+<!-- Weather Widget Component -->
+<div
+  class="flex flex-row items-center justify-between"
+  id="daily-weather-cards"
+>
+  <!-- Weather cards will be dynamically populated here -->
+</div>
+
+<script>
+  interface DailyWeather {
+    date: string
+    dayString: string
+    dateString: string
+    weatherCategory: string
+    maxTemp: number
+    minTemp: number
+  }
+
+  interface ProcessedWeatherData {
+    daily: DailyWeather[]
+    current: {
+      temperature: number
+      humidity: number
+      apparentTemp: number
+      isDay: boolean
+      precipitation: number
+      cloudCover: number
+    }
+  }
+
+  // Function to create a weather card element
+  function createWeatherCard(weather: DailyWeather): string {
+    return `
+      <div class="card bg-base-100/5 backdrop-blur-sm rounded-xl">
+        <div class="card-body p-4 flex flex-col items-center">
+          <div class="flex flex-col items-center">
+            <span class="text-sm font-bold" aria-label="dayString">${weather.dayString}</span>
+            <span class="text-sm" aria-label="dateString">${weather.dateString}</span>
+          </div>
+          <img
+            src="/assets/static/${weather.weatherCategory}.svg"
+            alt="Weather"
+            class="w-16 h-16 -mt-4"
+          />
+          <div class="flex flex-row items-center gap-2 -mt-4">
+            <span class="text-sm font-bold leading-none" aria-label="maxTemperature">${weather.maxTemp}°</span>
+            <span class="text-sm" aria-label="minTemperature">${weather.minTemp}°</span>
+          </div>
+        </div>
+      </div>
+    `
+  }
+
+  // Function to update the daily weather cards
+  function updateDailyWeatherCards(data: ProcessedWeatherData) {
+    const container = document.getElementById('daily-weather-cards')
+    if (!container) return
+
+    // Get the next 6 days (skip today which is index 0)
+    const next6Days = data.daily.slice(0, 6)
+
+    // Generate HTML for all cards
+    const cardsHtml = next6Days.map(createWeatherCard).join('')
+
+    // Update the container
+    container.innerHTML = cardsHtml
+  }
+
+  // Listen for the weatherDataReady event
+  document.addEventListener('weatherDataReady', (event: Event) => {
+    const customEvent = event as CustomEvent<ProcessedWeatherData>
+    updateDailyWeatherCards(customEvent.detail)
+  })
+</script>
