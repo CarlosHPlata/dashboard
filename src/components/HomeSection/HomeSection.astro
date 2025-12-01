@@ -17,7 +17,7 @@ import Weather from './parts/Weather.astro'
   </div>
 
   <!-- Time Widget (positioned at top) -->
-  <div class="card bg-base-100/10 h-1/4 relative z-10 mt-2 m-6" id="current">
+  <div class="card bg-base-100/50 h-1/4 relative z-10 mt-2 m-6" id="current">
     <div class="card-body flex flex-row items-center justify-between">
       <!-- Time Widget (positioned at top) -->
       <div class="flex items-center justify-center relative" id="time-content">
@@ -35,7 +35,7 @@ import Weather from './parts/Weather.astro'
         class="flex flex-col items-center justify-center -mt-3"
         id="weather-container"
       >
-        <div class="flex flex-col items-center">
+        <div class="flex flex-row items-center justify-start">
           <img
             src="/assets/animated/clear.svg"
             alt="Weather"
@@ -43,21 +43,20 @@ import Weather from './parts/Weather.astro'
             id="current-weather-icon"
           />
           <div class="flex flex-col items-center gap-2">
-            <span
-              class="flex items-center text-2xl leading-none -mt-2"
+            <h2
+              class="flex items-center text-5xl leading-none"
               id="current-weather-label"
             >
               <span class="font-bold leading-none" id="current-weather-temp"
               ></span>
-            </span>
+            </h2>
             <span
-              class="text-sm leading-none text-shade-200 -mt-2"
+              class="text-sm leading-none text-shade-200"
               id="current-weather-apparent-label"
             >
               Apparent:
-              <span
-                class="font-bold leading-none -mt-2"
-                id="current-weather-apparent"></span>
+              <span class="font-bold leading-none" id="current-weather-apparent"
+              ></span>
             </span>
           </div>
         </div>
