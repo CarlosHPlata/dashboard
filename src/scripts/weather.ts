@@ -35,8 +35,8 @@ const WEATHER_API_URL = `${WEATHER_API_BASE_URL}?latitude=${LATITUDE}&longitude=
 
 // Cache configuration
 const CACHE_KEY = 'weather_data_cache';
-const CACHE_DURATION_MS = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
-const SYNC_INTERVAL_MS = 5 * 60 * 60 * 1000; // 5 hours
+const CACHE_DURATION_MS = 1 * 60 * 60 * 1000; // 1 hours in milliseconds
+const SYNC_INTERVAL_MS = 1 * 60 * 60 * 1000; // 1 hours
 
 // Weather category enum
 enum WeatherCategory {
@@ -130,7 +130,7 @@ class Weather {
       await this.fetchAndCacheWeatherData();
     }
 
-    // Set up refresh interval (every 5 hours)
+    // Set up refresh interval (every 1 hours)
     setInterval(() => this.fetchAndCacheWeatherData(), this.syncInterval);
   }
 
@@ -142,7 +142,7 @@ class Weather {
       const cacheData: WeatherCache = JSON.parse(cached);
       const now = Date.now();
 
-      // Check if cache is still valid (within 5 hours)
+      // Check if cache is still valid (within 1 hours)
       if (now - cacheData.timestamp < CACHE_DURATION_MS) {
         return cacheData.data;
       }
