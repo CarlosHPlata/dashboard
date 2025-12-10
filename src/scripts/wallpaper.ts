@@ -142,14 +142,27 @@ class Wallpaper {
     // Clear existing content
     this.wallpaperElement.innerHTML = '';
 
-    // Create the image element
-    const img = document.createElement('img');
-    img.src = wallpaperData.imageUrl;
-    img.alt = wallpaperData.title;
-    img.className = 'w-full h-full object-cover';
+    // Create sharp layer (left side - no blur)
+    const sharpDiv = document.createElement('div');
+    sharpDiv.className = 'absolute inset-0 wallpaper-sharp';
+    const sharpImg = document.createElement('img');
+    sharpImg.src = wallpaperData.imageUrl;
+    sharpImg.alt = wallpaperData.title;
+    sharpImg.className = 'w-full h-full object-cover';
+    sharpDiv.appendChild(sharpImg);
 
-    // Append elements
-    this.wallpaperElement.appendChild(img);
+    // Create blurred layer (right side - fully blurred)
+    const blurDiv = document.createElement('div');
+    blurDiv.className = 'absolute inset-0 wallpaper-blur';
+    const blurImg = document.createElement('img');
+    blurImg.src = wallpaperData.imageUrl;
+    blurImg.alt = wallpaperData.title;
+    blurImg.className = 'w-full h-full object-cover';
+    blurDiv.appendChild(blurImg);
+
+    // Append both layers
+    this.wallpaperElement.appendChild(sharpDiv);
+    this.wallpaperElement.appendChild(blurDiv);
   }
 
   private showError(): void {

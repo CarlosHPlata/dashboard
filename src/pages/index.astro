@@ -15,6 +15,24 @@ import TodoSection from '../components/TodoSection/TodoSection.astro'
 	</head>
 	<body class="bg-base-300 h-screen w-screen overflow-hidden">
 		<main class="flex flex-row h-full w-full">
+			<div
+				class="absolute inset-1 overflow-hidden rounded-2xl shadow-xl"
+				id="wallpaper"
+			>
+				<!-- Sharp background layer (visible on left) -->
+				<div
+					class="absolute inset-0 bg-neutral-focus flex items-center justify-center text-neutral-content wallpaper-sharp"
+				>
+					<span class="text-lg">Image Background</span>
+				</div>
+				<!-- Blurred background layer (visible on right) -->
+				<div
+					class="absolute inset-0 bg-neutral-focus flex items-center justify-center text-neutral-content wallpaper-blur"
+				>
+					<span class="text-lg">Image Background</span>
+				</div>
+			</div>
+
 			<HomeSection />
 			<CalendarSection />
 		</main>

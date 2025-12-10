@@ -9,3 +9,18 @@ body {
   font-family: var(--font-family);
   @apply bg-base-100 text-base-content min-h-screen flex justify-center items-center;
 }
+
+/* Wallpaper gradient blur effect */
+.wallpaper-sharp {
+  /* No blur - visible on the left */
+  filter: blur(0px);
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.wallpaper-blur {
+  /* Full blur - visible on the right */
+  filter: blur(20px);
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
