@@ -50,7 +50,8 @@ class CalendarEvents {
 
   private async fetchEvents(): Promise<CalendarEvent[]> {
     try {
-      const response = await fetch(this.BASE_URI);
+      const start = moment().startOf('day').toISOString();
+      const response = await fetch(`${this.BASE_URI}?start=${encodeURIComponent(start)}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch calendar events: ${response.statusText}`);
       }

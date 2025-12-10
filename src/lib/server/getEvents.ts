@@ -6,12 +6,12 @@ import moment from "moment";
 
 export const prerender = false;
 
-export const getEvents = async () => {
+export const getEvents = async (start?: string) => {
   const calendars = getCalendars();
   let events: GoogleCalendarItem[] = [];
 
   for (const calendarId of calendars) {
-    const response = await getEventsFromCalendar(calendarId);
+    const response = await getEventsFromCalendar(calendarId, start);
     events = [...events, ...response.items];
   }
 

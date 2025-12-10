@@ -1,11 +1,21 @@
 import type { APIRoute } from "astro";
 import { getEvents } from "../../lib/server/getEvents";
+import moment from "moment";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
   try {
-    const events = await getEvents();
+    const { start } = Object.fromEntries(new URL(request.url).searchParams.entries());
+    console.log(start);
+    console.log(moment().subtract(1, "month").toISOString());
+
+    // Validate that start is in ISO date format
+    if (start && !moment(start, moment.ISO_8601, true).isValid()) {
+      return new Response("Invalid start date. Must be in ISO 8601 format.", { status: 400 });
+    }
+
+    const events = await getEvents(start);
     return new Response(JSON.stringify(events), { status: 200 });
   } catch (error) {
     console.error(error);

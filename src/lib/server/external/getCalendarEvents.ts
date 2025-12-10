@@ -5,10 +5,11 @@ import type { GoogleCalendarResponse } from "../dtos/types";
 
 export const prerender = false;
 
-export const getEventsFromCalendar = async (calendarId: string) => {
+export const getEventsFromCalendar = async (calendarId: string, startStr?: string) => {
   const credentials = JSON.parse(import.meta.env.GOOGLE_CALENDAR_CREDENTIALS!);
-  const start = moment().startOf('day').toISOString();
-  const end = moment().add(31, "days").endOf('day').toISOString();
+  const startDate = startStr ? moment(startStr) : moment();
+  const start = startDate.startOf('day').toISOString();
+  const end = startDate.add(31, "days").endOf('day').toISOString();
 
   const authClient = new JWT({
     email: credentials.client_email,
