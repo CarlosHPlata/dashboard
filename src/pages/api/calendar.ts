@@ -7,8 +7,7 @@ export const prerender = false;
 export const GET: APIRoute = async ({ request }) => {
   try {
     const { start } = Object.fromEntries(new URL(request.url).searchParams.entries());
-    console.log(start);
-    console.log(moment().subtract(1, "month").toISOString());
+    console.log("start date", start);
 
     // Validate that start is in ISO date format
     if (start && !moment(start, moment.ISO_8601, true).isValid()) {
