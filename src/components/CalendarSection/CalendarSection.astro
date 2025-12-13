@@ -1,8 +1,8 @@
 ---
-import CalendarWidget from '../widgets/CalendarWidget/index.astro'
+import CalendarWidget from '../islands/widgets/CalendarWidget/index.tsx'
 ---
 
 <!-- Section 2: Calendar (40%) -->
 <section class="w-[45%] h-full p-3" id="calendar">
-  <CalendarWidget />
+  <CalendarWidget client:load />
 </section>

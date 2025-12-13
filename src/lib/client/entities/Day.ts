@@ -1,10 +1,10 @@
 import moment from "moment";
-import type { CalendarEvent } from "./CalendarEvent";
+import type { CalendarEvent, CalendarEventImpl } from "./CalendarEvent";
 
 export class Day {
 
-  private events: CalendarEvent[];
-  private fullDayEvents: CalendarEvent[];
+  private events: CalendarEventImpl[];
+  private fullDayEvents: CalendarEventImpl[];
 
   constructor(
     private readonly date: string,
@@ -13,21 +13,21 @@ export class Day {
     this.fullDayEvents = [];
   }
 
-  public addEvent(event: CalendarEvent): void {
-    if (event.isAllDayEvent) {
+  public addEvent(event: CalendarEventImpl): void {
+    if (event.isAllDay()) {
       this.fullDayEvents.push(event);
     } else {
       this.events.push(event);
     }
   }
 
-  public getEvents(): CalendarEvent[] {
+  public getEvents(): CalendarEventImpl[] {
     const allEvents = [...this.fullDayEvents];
 
     return [
       ...allEvents,
       ...this.events.sort((a, b) => {
-        return moment(a.start).isBefore(moment(b.start)) ? -1 : 1;
+        return moment(a.getStart()).isBefore(moment(b.getStart())) ? -1 : 1;
       })
     ];
   }
@@ -48,8 +48,12 @@ export class Day {
     return moment(this.date).format('MMM');
   }
 
-  static fromEvent(event: CalendarEvent): Day {
-    const day = new Day(moment(event.start).toISOString());
+  public isToday(): boolean {
+    return moment(this.date).isSame(moment(), 'day');
+  }
+
+  static fromEvent(event: CalendarEventImpl): Day {
+    const day = new Day(moment(event.getStart()).toISOString());
     day.addEvent(event);
     return day;
   }

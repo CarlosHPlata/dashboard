@@ -1,6 +1,6 @@
 import moment from "moment";
-import type { CalendarEvent } from "./entities/CalendarEvent";
-import { Day } from "./entities/Day";
+import { CalendarEventImpl, type CalendarEvent } from "./entities/CalendarEvent";
+import { Calendar } from "./entities/Calendar";
 
 interface CachedCalendarEvents {
   date: string;
@@ -9,43 +9,26 @@ interface CachedCalendarEvents {
 
 class CalendarEvents {
   private readonly CACHE_KEY = 'calendar-events-cache';
-  private readonly CACHE_DURATION_MS = 1 * 60 * 60 * 1000; // 1 hours in milliseconds
+  private readonly CACHE_DURATION_MS = 15; // 15 minutes in milliseconds
   private readonly BASE_URI = '/api/calendar';
 
-  async getCalendar(): Promise<Day[]> {
+  async getCalendar(): Promise<Calendar> {
     const events = await this.getEvents();
-    const calendarDays: Map<string, Day> = new Map();
-
-    events?.forEach(event => {
-      const date = moment(event.start).startOf('day').toISOString();
-      let day = calendarDays.get(date);
-      if (!day) {
-        day = Day.fromEvent(event);
-        calendarDays.set(date, day);
-      } else {
-        day.addEvent(event);
-      }
-    });
-
-    return Array.from(calendarDays.entries())
-      .sort((a, b) => {
-        return moment(a[0]).isBefore(moment(b[0])) ? -1 : 1;
-      })
-      .map(([_, day]) => day);
+    return Calendar.fromEvents(events);
   }
 
   private async getEvents() {
     const now = moment();
     const cached = await this.getCached();
 
-    if (cached && now.diff(moment(cached.date), "hours") < this.CACHE_DURATION_MS) {
+    if (cached && now.diff(moment(cached.date), "minutes") < this.CACHE_DURATION_MS) {
       console.info('Using cached calendar events');
-      return cached.events;
+      return cached.events.map((event: CalendarEvent) => new CalendarEventImpl(event));
     }
 
     const events = await this.fetchEvents();
-    this.setCached({ date: now.format('YYYY-MM-DD'), events });
-    return events;
+    this.setCached({ date: now.toISOString(), events });
+    return events.map((event: CalendarEvent) => new CalendarEventImpl(event));
   }
 
   private async fetchEvents(): Promise<CalendarEvent[]> {
