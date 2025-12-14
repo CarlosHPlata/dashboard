@@ -21,14 +21,15 @@ class CalendarEvents {
     const now = moment();
     const cached = await this.getCached();
 
-    if (cached && now.diff(moment(cached.date), "minutes") < this.CACHE_DURATION_MS) {
-      console.info('Using cached calendar events');
-      return cached.events.map((event: CalendarEvent) => new CalendarEventImpl(event));
+    if (!cached || cached.events.length === 0 || now.diff(moment(cached.date), "minutes") > this.CACHE_DURATION_MS) {
+      const events = await this.fetchEvents();
+      console.log('using new events')
+      this.setCached({ date: now.toISOString(), events });
+      return events.map((event: CalendarEvent) => new CalendarEventImpl(event));
     }
 
-    const events = await this.fetchEvents();
-    this.setCached({ date: now.toISOString(), events });
-    return events.map((event: CalendarEvent) => new CalendarEventImpl(event));
+    console.info('Using cached calendar events');
+    return cached.events.map((event: CalendarEvent) => new CalendarEventImpl(event));
   }
 
   private async fetchEvents(): Promise<CalendarEvent[]> {

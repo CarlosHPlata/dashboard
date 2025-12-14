@@ -22,6 +22,7 @@ export const useCalendar = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      console.info('Refreshing calendar')
       calendarEvents.getCalendar()
         .then((calendar) => {
           setCalendar(calendar)
@@ -29,7 +30,7 @@ export const useCalendar = () => {
         .catch((error) => {
           console.error(error)
         })
-    }, 15 * 60 * 1000)
+    }, 16 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
 
